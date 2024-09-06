@@ -7,6 +7,7 @@ from fastapi.testclient import TestClient
 
 @pytest.fixture(autouse=True)
 def reset_db():
+    
     seed_db()
 
 class TestMain:
@@ -28,3 +29,4 @@ class TestMain:
         assert data["name"] == "Escape from the Planet of the Apes"
         assert data["description"] == "Three apes travel back in time"
         assert "item_id" in data
+        

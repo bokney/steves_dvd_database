@@ -1,4 +1,5 @@
 from db.seed import seed
+import db.config
 
 def seed_db() -> None:
     try:

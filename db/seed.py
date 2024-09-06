@@ -8,7 +8,8 @@ def seed():
         CREATE TABLE items(
             item_id SERIAL PRIMARY KEY,
             name VARCHAR(128) NOT NULL,
-            description VARCHAR(512) NOT NULL
+            description VARCHAR(512) NOT NULL,
+            cast_members VARCHAR(128)
         );
     """)
     print('closing db connection')

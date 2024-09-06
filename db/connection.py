@@ -1,4 +1,4 @@
-import os
+# import os
 from dotenv import load_dotenv
 import pg8000.native
 from db.config import database, password, user

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Log a Copy — Steve's DVD Database{% endblock %}
+
+{% block content %}
+<div style="margin-bottom:20px;">
+  <a class="btn btn-ghost" href="/">&larr; Back to collection</a>
+</div>
+
+<h2 class="page-heading">Log a Physical Copy</h2>
+
+{% if all_media %}
+<div class="form-card">
+  <form method="post" action="/copies/add">
+    <div class="field">
+      <label for="media_id">Title <span style="color:var(--red)">*</span></label>
+      <select id="media_id" name="media_id" required>
+        <option value="">— choose a title —</option>
+        {% for item in all_media %}
+        <option value="{{ item.id }}" {% if request.query_params.get('media_id') == item.id|string %}selected{% endif %}>
+          {{ item.title }}{% if item.release_year %} ({{ item.release_year }}){% endif %}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="format">Format <span style="color:var(--red)">*</span></label>
+      <select id="format" name="format" required>
+        <option value="">— choose a format —</option>
+        <option value="DVD">DVD</option>
+        <option value="Blu-ray">Blu-ray</option>
+        <option value="4K UHD">4K UHD</option>
+        <option value="VHS">VHS</option>
+        <option value="LaserDisc">LaserDisc</option>
+        <option value="HD DVD">HD DVD</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="notes">Notes</label>
+      <textarea id="notes" name="notes" placeholder="e.g. Director's Cut, steelbook, ex-rental…"></textarea>
+      <p class="field-hint">Optional — condition, edition, where you got it, etc.</p>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Log Copy</button>
+      <a class="btn btn-ghost" href="/">Cancel</a>
+    </div>
+  </form>
+</div>
+{% else %}
+<div class="empty">
+  <p>You need to add a title before you can log a copy.</p>
+  <a class="btn btn-primary" href="/media/add">Add a title first</a>
+</div>
+{% endif %}
+{% endblock %}

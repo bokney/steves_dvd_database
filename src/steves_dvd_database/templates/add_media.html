@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Add Title — Steve's DVD Database{% endblock %}
+
+{% block content %}
+<div style="margin-bottom:20px;">
+  <a class="btn btn-ghost" href="/">&larr; Back to collection</a>
+</div>
+
+<h2 class="page-heading">Add a Title</h2>
+
+<div class="form-card">
+  <form method="post" action="/media/add">
+    <div class="field">
+      <label for="title">Title <span style="color:var(--red)">*</span></label>
+      <input id="title" name="title" type="text" required autofocus placeholder="e.g. The Thing">
+    </div>
+
+    <div class="field">
+      <label for="release_year">Release Year</label>
+      <input
+        id="release_year"
+        name="release_year"
+        type="number"
+        min="1888"
+        max="2099"
+        placeholder="e.g. 1982"
+      >
+    </div>
+
+    <div class="field">
+      <label for="rating">Your Rating</label>
+      <select id="rating" name="rating">
+        <option value="">— no rating —</option>
+        <option value="1">★ (1/5)</option>
+        <option value="2">★★ (2/5)</option>
+        <option value="3">★★★ (3/5)</option>
+        <option value="4">★★★★ (4/5)</option>
+        <option value="5">★★★★★ (5/5)</option>
+      </select>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">Save Title</button>
+      <a class="btn btn-ghost" href="/">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

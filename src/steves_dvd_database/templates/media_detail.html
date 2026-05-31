@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}{{ media.title }} — Steve's DVD Database{% endblock %}
+
+{% block content %}
+<div style="margin-bottom:20px;">
+  <a class="btn btn-ghost" href="/">&larr; Back to collection</a>
+</div>
+
+<h2 class="page-heading">{{ media.title }}</h2>
+
+<dl class="detail-meta">
+  <div>
+    <dt>Year</dt>
+    <dd>{{ media.release_year if media.release_year else '—' }}</dd>
+  </div>
+  <div>
+    <dt>Rating</dt>
+    <dd>
+      {% if media.rating %}
+        <span class="stars">{% for _ in range(media.rating) %}★{% endfor %}{% for _ in range(5 - media.rating) %}☆{% endfor %}</span>
+        ({{ media.rating }}/5)
+      {% else %}
+        —
+      {% endif %}
+    </dd>
+  </div>
+</dl>
+
+<div class="toolbar">
+  <h3 class="page-heading" style="margin-bottom:0;border:none;">Physical Copies</h3>
+  <a class="btn btn-primary" href="/copies/add?media_id={{ media.id }}">+ Log Copy</a>
+</div>
+
+{% if copies %}
+  <table class="copies-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Format</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for copy in copies %}
+      <tr>
+        <td style="color:var(--faded)">{{ copy.id }}</td>
+        <td><span class="format-badge">{{ copy.format }}</span></td>
+        <td style="color:var(--faded)">{{ copy.notes if copy.notes else '—' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="empty">
+    <p>No copies logged yet.</p>
+    <a class="btn btn-primary" href="/copies/add">Log a copy</a>
+  </div>
+{% endif %}
+{% endblock %}

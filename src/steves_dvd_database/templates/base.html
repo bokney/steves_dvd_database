@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Steve's DVD Database{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:   #f5f0e8;
+      --paper:   #ede7d9;
+      --ink:     #1c1410;
+      --faded:   #7a6e62;
+      --red:     #b5292a;
+      --red-dim: #8a1e1f;
+      --rule:    #c8bfb0;
+      --max:     780px;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 3px double var(--ink);
+      padding: 18px 24px 14px;
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    header h1 {
+      font-family: 'Special Elite', serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.02em;
+      color: var(--red);
+      white-space: nowrap;
+    }
+    header h1 span { color: var(--ink); }
+    nav { display: flex; gap: 16px; align-items: baseline; flex-wrap: wrap; }
+    nav a {
+      font-size: 12px;
+      color: var(--faded);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-bottom: 1px solid transparent;
+      transition: color .15s, border-color .15s;
+    }
+    nav a:hover { color: var(--red); border-color: var(--red); }
+
+    /* ── Main ── */
+    main {
+      max-width: var(--max);
+      margin: 32px auto;
+      padding: 0 24px;
+    }
+
+    /* ── Page heading ── */
+    .page-heading {
+      font-family: 'Special Elite', serif;
+      font-size: 1.2rem;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 8px;
+      margin-bottom: 24px;
+    }
+
+    /* ── Search bar ── */
+    .search-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .search-bar input {
+      flex: 1;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 0;
+      padding: 7px 10px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--ink);
+      outline: none;
+    }
+    .search-bar input:focus { border-color: var(--ink); }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-block;
+      padding: 7px 14px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid;
+      transition: background .15s, color .15s;
+    }
+    .btn-primary {
+      background: var(--red);
+      color: var(--cream);
+      border-color: var(--red-dim);
+    }
+    .btn-primary:hover { background: var(--red-dim); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--faded);
+      border-color: var(--rule);
+    }
+    .btn-ghost:hover { color: var(--ink); border-color: var(--ink); }
+
+    /* ── Media list ── */
+    .media-list { list-style: none; }
+    .media-list li {
+      border-bottom: 1px solid var(--rule);
+    }
+    .media-list li:first-child { border-top: 1px solid var(--rule); }
+    .media-list a {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 10px 4px;
+      text-decoration: none;
+      color: inherit;
+      gap: 12px;
+      transition: background .12s;
+    }
+    .media-list a:hover { background: var(--paper); padding-left: 10px; }
+    .media-list .title { font-family: 'Special Elite', serif; font-size: 1rem; }
+    .media-list .meta { color: var(--faded); font-size: 12px; white-space: nowrap; }
+    .stars { color: var(--red); letter-spacing: 1px; }
+
+    /* ── Detail ── */
+    .detail-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      padding: 14px 16px;
+      margin-bottom: 28px;
+      font-size: 13px;
+    }
+    .detail-meta dt { color: var(--faded); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+    .detail-meta dd { margin-top: 2px; }
+
+    .copies-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .copies-table th {
+      text-align: left;
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--faded);
+      border-bottom: 2px solid var(--rule);
+      padding: 6px 8px 6px 0;
+    }
+    .copies-table td {
+      padding: 9px 8px 9px 0;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+    }
+    .format-badge {
+      display: inline-block;
+      background: var(--ink);
+      color: var(--cream);
+      font-size: 10px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+    }
+
+    /* ── Forms ── */
+    .form-card {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      padding: 28px;
+      max-width: 520px;
+    }
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--faded);
+      margin-bottom: 5px;
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      background: var(--cream);
+      border: 1px solid var(--rule);
+      padding: 8px 10px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--ink);
+      outline: none;
+      border-radius: 0;
+      appearance: none;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus { border-color: var(--ink); }
+    .field textarea { resize: vertical; min-height: 80px; }
+    .field-hint { font-size: 11px; color: var(--faded); margin-top: 4px; }
+
+    .form-actions { display: flex; gap: 12px; align-items: center; margin-top: 24px; }
+
+    /* ── Empty state ── */
+    .empty {
+      text-align: center;
+      padding: 48px 0;
+      color: var(--faded);
+      border: 1px dashed var(--rule);
+    }
+    .empty p { margin-bottom: 16px; font-size: 13px; }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📼 <span>Steve's</span> DVD Database</h1>
+    <nav>
+      <a href="/">Collection</a>
+      <a href="/media/add">+ Add Title</a>
+      <a href="/copies/add">+ Log Copy</a>
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

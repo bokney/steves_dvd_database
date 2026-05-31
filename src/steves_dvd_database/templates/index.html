@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Collection — Steve's DVD Database{% endblock %}
+
+{% block content %}
+<div class="toolbar">
+  <h2 class="page-heading">Collection</h2>
+  <a class="btn btn-primary" href="/media/add">+ Add Title</a>
+</div>
+
+<form class="search-bar" method="get" action="/">
+  <input
+    type="text"
+    name="title"
+    placeholder="Search titles…"
+    value="{{ search }}"
+    autofocus
+  >
+  <button class="btn btn-ghost" type="submit">Search</button>
+  {% if search %}
+    <a class="btn btn-ghost" href="/">Clear</a>
+  {% endif %}
+</form>
+
+{% if media %}
+  {% if search %}
+    <p style="font-size:12px;color:var(--faded);margin-bottom:14px;">
+      {{ media|length }} result{% if media|length != 1 %}s{% endif %} for "{{ search }}"
+    </p>
+  {% endif %}
+  <ul class="media-list">
+    {% for item in media %}
+    <li>
+      <a href="/media/{{ item.id }}">
+        <span class="title">{{ item.title }}</span>
+        <span class="meta">
+          {% if item.release_year %}{{ item.release_year }}&nbsp;·&nbsp;{% endif %}
+          {% if item.rating %}
+            <span class="stars">{% for _ in range(item.rating) %}★{% endfor %}{% for _ in range(5 - item.rating) %}☆{% endfor %}</span>
+          {% else %}
+            <span>—</span>
+          {% endif %}
+        </span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <div class="empty">
+    <p>{% if search %}No titles match "{{ search }}".{% else %}The collection is empty.{% endif %}</p>
+    <a class="btn btn-primary" href="/media/add">Add your first title</a>
+  </div>
+{% endif %}
+{% endblock %}
